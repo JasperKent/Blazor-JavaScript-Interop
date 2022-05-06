@@ -1,0 +1,42 @@
+﻿<label>Halloween</label><input type="checkbox" @onchange="ToggleHalloween"/>
+
+@if(ShowPopup)
+{
+    <div></div>
+}
+
+@code {
+    private bool isHalloween;
+
+    [Inject]
+    private IJSRuntime JsRuntime { get; set; } = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await JsRuntime.InvokeVoidAsync("initialize", DotNetObjectReference.Create(this));
+    }
+
+    private async Task ToggleHalloween()
+    {
+        isHalloween = !isHalloween;
+
+        await JsRuntime.InvokeVoidAsync("setHalloween", isHalloween);
+    }
+
+    private bool ShowPopup { get; set; }
+
+    [JSInvokable]
+    public async Task MouseLeave()
+    {
+        ShowPopup = true;
+
+        await InvokeAsync (() => StateHasChanged());
+
+        await Task.Delay(200);
+
+        ShowPopup = false;
+
+        await InvokeAsync (() => StateHasChanged());
+    }
+}

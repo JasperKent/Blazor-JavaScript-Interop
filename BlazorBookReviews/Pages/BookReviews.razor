@@ -1,0 +1,43 @@
+﻿@page "/bookreviews"
+
+<h3>Book Reviews</h3>
+
+<button class="btn btn-secondary" @onclick="()=>ShowAdd = true" disabled="@ShowAdd">Add Review</button>
+
+@if (ShowAdd)
+{
+    <AddReview Added="ReviewAdded"></AddReview>
+}
+
+<table>
+    <thead>
+        <tr>
+            <th>
+               Title
+            </th>
+            <th>
+               Rating
+            </th>
+        </tr>
+    </thead>
+    <tbody class="@TableClass">
+        @{
+            int i = 0;
+            foreach(var review in Reviews)
+            {
+              <tr>
+                  <td>@review.Title</td>
+                  <td>@review.Rating</td>
+                </tr>
+
+                ++i;
+            }
+        }
+    </tbody>
+</table>
+
+<ul>
+    <li>One</li>
+    <li>Two</li>
+    <li>Three</li>
+</ul>
